@@ -3,7 +3,7 @@
     <!-- <header>
       <h1>Home</h1>
     </header> -->
-    <div class="form">
+    <!-- <div class="form">
       <h2>Subscribe</h2>
       <form @submit.prevent>
         <label for="topic">Topic: </label>
@@ -12,7 +12,7 @@
         <input type="number" v-model="qos" id="qos" />
         <button class="submit" type="submit" @click="doSubscribe()" >Subscribe</button>
       </form>
-    </div>
+    </div> -->
     <div class="form">
       <h2>Publish</h2>
       <form  @submit.prevent>
@@ -21,11 +21,11 @@
         <button class="submit" type="submit" @click="sendMesage()" >Send</button>
       </form>
     </div>
-    <div>
+    <!-- <div>
       <h2>Response</h2>
       <textarea name="response" v-model="response" cols="30" rows="10">
       </textarea>
-    </div>
+    </div> -->
   </main>
 </template>
 
@@ -48,8 +48,8 @@ const toast = Swal.mixin({
   }
 })
 
-const response = ref()
-const message = ref()
+const response = ref('')
+const message = ref('')
 
 const clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
 
@@ -60,10 +60,11 @@ const client = mqtt.connect(host, {
 })
 
 client.on('connect', () => {
-  toast.fire({
-    icon: 'success',
-    title: 'MQTT connection established!'
-  })
+  // toast.fire({
+  //   icon: 'success',
+  //   title: 'MQTT connection established!'
+  // })
+  doSubscribe()
 })
 const topic = ref("topic/mqttx")
 const qos = ref(0)
@@ -78,17 +79,17 @@ const doSubscribe = () => {
     topic,
     { qos },
     (error, granted) => {
-      if (error) {
-        toast.fire({
-          icon: 'error',
-          title: 'MQTT subscription error!'
-        })
-        return;
-      }
-      toast.fire({
-        icon: 'success',
-        title: 'MQTT subscription established!'
-      })
+      // if (error) {
+      //   toast.fire({
+      //     icon: 'error',
+      //     title: 'MQTT subscription error!'
+      //   })
+      //   return;
+      // }
+      // toast.fire({
+      //   icon: 'success',
+      //   title: 'MQTT subscription established!'
+      // })
       console.log("Subscribed", granted);
     }
   );
@@ -113,17 +114,17 @@ const sendMesage = () =>{
 });
 
   client.publish(publish.value.topic, publish.value.payload, {qos: publish.value.qos}, (error) => {
-    if (error) {
-      toast.fire({
-        icon: 'error',
-        title: 'MQTT publish error!'
-      })
-      return;
-    }
-    toast.fire({
-      icon: 'success',
-      title: 'MQTT publish success!'
-    })
+    // if (error) {
+    //   toast.fire({
+    //     icon: 'error',
+    //     title: 'MQTT publish error!'
+    //   })
+    //   return;
+    // }
+    // toast.fire({
+    //   icon: 'success',
+    //   title: 'MQTT publish success!'
+    // })
   });
 }
 
